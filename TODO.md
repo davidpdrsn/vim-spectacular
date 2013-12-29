@@ -9,3 +9,4 @@
 - [ ] show an error message when filetype is unknown
 - [ ] possible to run file on current line
 - [ ] possible to pass in several predicate functions
+- [ ] optional debug mode, which puts stuff on |messages|
