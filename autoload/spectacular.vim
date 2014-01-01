@@ -1,6 +1,6 @@
-let g:spectacular_test_runners = {}
+let s:spectacular_test_runners = {}
 
-function! spectacular#always_true(x)
+function! s:AlwayeTrue(...)
   return 1
 endfunction
 
@@ -8,20 +8,20 @@ function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
   if exists('a:000[0]')
     let ConditionFn = a:000[0]
   else
-    let ConditionFn = function('spectacular#always_true')
+    let ConditionFn = function('s:AlwayeTrue')
   endif
 
-  if !has_key(g:spectacular_test_runners, a:filetype)
-    let g:spectacular_test_runners[a:filetype] = []
+  if !has_key(s:spectacular_test_runners, a:filetype)
+    let s:spectacular_test_runners[a:filetype] = []
   endif
 
-  let list = get(g:spectacular_test_runners, a:filetype)
+  let list = get(s:spectacular_test_runners, a:filetype)
 
   call add(list, { 'pattern': a:file_pattern, 'condition': ConditionFn, 'cmd': a:command })
 endfunction
 
 function! spectacular#run_tests()
-  let configs = get(g:spectacular_test_runners, &filetype)
+  let configs = get(s:spectacular_test_runners, &filetype)
 
   let clear_cmd = "!clear & "
   let cmd = clear_cmd
@@ -32,12 +32,11 @@ function! spectacular#run_tests()
     endif
 
     if config.condition(g:spectacular_test_file)
-      let cmd = clear_cmd . config.cmd . " " . g:spectacular_test_file
+      let cmd = substitute(clear_cmd . config.cmd, '{spec}', g:spectacular_test_file, "")
       break
     endif
-
-    let cmd = clear_cmd . config.cmd . " " . g:spectacular_test_file
   endfor
 
+  echom cmd
   execute cmd
 endfunction
