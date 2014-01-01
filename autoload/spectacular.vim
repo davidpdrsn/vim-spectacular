@@ -1,25 +1,19 @@
 let g:spectacular_test_runners = {}
 
-function! True(...)
-  return 1
-endfunction
-
 function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
   if !has_key(g:spectacular_test_runners, a:filetype)
     let g:spectacular_test_runners[a:filetype] = []
   endif
 
-  let conditions = copy(a:000)
-
-  if empty(conditions)
-    call add(conditions, function("True"))
-  endif
-
   let list = get(g:spectacular_test_runners, a:filetype)
 
-  call add(list, { 'pattern': a:file_pattern, 'conditions': conditions, 'cmd': a:command })
+  call add(list, {
+        \ 'pattern': a:file_pattern,
+        \ 'conditions': a:000,
+        \ 'cmd': a:command })
 endfunction
 
+" TODO: refactor this
 function! spectacular#run_tests()
   " filter configs by current file type
   let configs_for_current_filetype = get(g:spectacular_test_runners, &filetype)
