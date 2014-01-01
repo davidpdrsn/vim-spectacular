@@ -18,7 +18,7 @@ call spectacular#add_test_runner('javascript', 'karma run', 'Spec')
 
 call spectacular#add_test_runner('cucumber', 'cucumber {spec}', '')
 
-call spectacular#add_test_runner('ruby', 'bin/cucumber', '_steps', function("InRailsApp"))
+call spectacular#add_test_runner('ruby', 'bin/rspec {spec}', '_spec', function("InRailsApp"), function("TestsRequireRails"))
 call spectacular#add_test_runner('ruby', 'rspec {spec}', '_spec')
 ```
 
