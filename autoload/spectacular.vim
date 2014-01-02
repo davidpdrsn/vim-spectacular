@@ -1,11 +1,11 @@
-let g:spectacular_test_runners = {}
+let s:spectacular_test_runners = {}
 
 function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
-  if !has_key(g:spectacular_test_runners, a:filetype)
-    let g:spectacular_test_runners[a:filetype] = []
+  if !has_key(s:spectacular_test_runners, a:filetype)
+    let s:spectacular_test_runners[a:filetype] = []
   endif
 
-  let list = get(g:spectacular_test_runners, a:filetype)
+  let list = get(s:spectacular_test_runners, a:filetype)
 
   call add(list, {
         \ 'pattern': a:file_pattern,
@@ -13,46 +13,64 @@ function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
         \ 'cmd': a:command })
 endfunction
 
-" TODO: refactor this
-function! spectacular#run_tests()
-  " filter configs by current file type
-  let configs_for_current_filetype = get(g:spectacular_test_runners, &filetype)
+"""""""""""""""""
 
-  " find out if the current file is a test file
-  " (matches any of the patterns in the config)
-  let current_file_is_test_file = 0
-  for config in configs_for_current_filetype
-    if match(expand("%"), config.pattern) != -1
-      let current_file_is_test_file = 1
+function! s:path_to_current_file()
+  return expand("%")
+endfunction
+
+function! s:configs_for_current_filetype()
+  return get(s:spectacular_test_runners, &filetype)
+endfunction
+
+function! s:current_file_is_test_file()
+  for config in s:configs_for_current_filetype()
+    if match(s:path_to_current_file(), config.pattern) != -1
+      return 1
     endif
   endfor
+endfunction
 
-  " if it does then mark it as the current test file
-  if current_file_is_test_file
-    let s:spectacular_test_file = expand("%")
-  endif
+function! s:configs_for_test_file(test_file)
+  let acc = []
 
-  " filter the configs by running the conditions on the current file
-  let configs_for_current_test_file = []
-  for config in configs_for_current_filetype
-    if match(s:spectacular_test_file, config.pattern) != -1
+  for config in s:configs_for_current_filetype()
+    if match(a:test_file, config.pattern) != -1
       let all_conditions_pass = 1
       for Condition in config.conditions
-        if !Condition(s:spectacular_test_file)
+        if !Condition(a:test_file)
           let all_conditions_pass = 0
+          break
         endif
       endfor
 
       if all_conditions_pass
-        call add(configs_for_current_test_file, config)
+        call add(acc, config)
       endif
     endif
   endfor
 
-  " find out which of them to actually run (the first one)
-  let config_for_current_test_file = get(configs_for_current_test_file, 0)
+  return acc
+endfunction
 
-  " run the command!
-  let cmd = substitute(config_for_current_test_file.cmd, "{spec}", s:spectacular_test_file, "")
-  execute "!clear & " . cmd
+function! s:config_for_test_file(test_file)
+  return get(s:configs_for_test_file(a:test_file), 0)
+endfunction
+
+function! s:run_tests_command()
+  return substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "")
+endfunction
+
+function! s:prepare_term_command()
+  return "clear & "
+endfunction
+
+"""""""""""""""""
+
+function! spectacular#run_tests()
+  if s:current_file_is_test_file()
+    let s:test_file = s:path_to_current_file()
+  endif
+
+  execute "!" . s:prepare_term_command() . s:run_tests_command()
 endfunction
