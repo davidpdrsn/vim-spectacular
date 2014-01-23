@@ -49,6 +49,9 @@ A few configuration options are available. They are set with global variables.
 " Run tests in another tmux pane. Requires tslime (https://github.com/jgdavey/tslime.vim).
 let g:spectacular_integrate_with_tmux = 0
 
+" Run tests with dispatch. Required vim-dispatch (http://github.com/tpope/vim-dispatch).
+let g:spectacular_integrate_with_dispatch = 0
+
 " Put the command run onto `:messages`. Useful for debugging.
 let g:spectacular_debugging_mode = 0
 ```

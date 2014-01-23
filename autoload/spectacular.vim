@@ -2,6 +2,10 @@ if !exists('g:spectacular_integrate_with_tmux')
   let g:spectacular_integrate_with_tmux = 0
 endif
 
+if !exists('g:spectacular_integrate_with_dispatch')
+  let g:spectacular_integrate_with_dispatch = 0
+endif
+
 if !exists('g:spectacular_debugging_mode')
   let g:spectacular_debugging_mode = 0
 endif
@@ -54,10 +58,6 @@ function! s:run_tests_command()
   return substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "")
 endfunction
 
-function! s:prepare_term_command()
-  return "clear & "
-endfunction
-
 function! s:in_tmux()
   return $TMUX != ""
 endfunction
@@ -71,9 +71,12 @@ function! s:command_prefix()
     \s:in_tmux() &&
     \s:number_of_tmux_panes() > 1 &&
     \exists(":Tmux")
-    return "Tmux "
+    return "Tmux clear & "
+  elseif g:spectacular_integrate_with_dispatch &&
+    \exists(":Dispatch")
+    return "Dispatch "
   else
-    return "!"
+    return "!clear & "
   endif
 endfunction
 
@@ -95,7 +98,7 @@ function! spectacular#run_tests()
     let s:test_file = s:path_to_current_file()
   endif
 
-  let command = s:command_prefix() . s:prepare_term_command() . s:run_tests_command()
+  let command = s:command_prefix() . s:run_tests_command()
 
   if g:spectacular_debugging_mode
     echom command

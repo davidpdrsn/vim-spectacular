@@ -3,6 +3,7 @@
 - [ ] write some docs
 - [ ] show an error message when filetype is unknown
 - [x] optional tmux integration
+- [x] optional dispatch integration
 - [x] optional debug mode, which puts stuff on |messages|
 - [x] write readme
 - [x] possible to run file on current line
