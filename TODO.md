@@ -1,10 +1,9 @@
 # Todos
 
 - [ ] write some docs
-- [ ] optional tmux integration
-- [ ] optional dispatch integration
 - [ ] show an error message when filetype is unknown
-- [ ] optional debug mode, which puts stuff on |messages|
+- [x] optional tmux integration
+- [x] optional debug mode, which puts stuff on |messages|
 - [x] write readme
 - [x] possible to run file on current line
 - [x] possible to pass in several predicate functions
