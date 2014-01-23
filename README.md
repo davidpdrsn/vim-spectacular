@@ -41,3 +41,15 @@ To actually run the tests you most call the function `spectacular#run_tests()`. 
 map <leader>t :write\|:call spectacular#run_tests()<cr>
 ```
 
+## Configuration
+
+A few configuration options are available. They are set with global variables.
+
+```vim
+" Run tests in another tmux pane. Requires tslime (https://github.com/jgdavey/tslime.vim).
+let g:spectacular_integrate_with_tmux = 0
+
+" Put the command run onto `:messages`. Useful for debugging.
+let g:spectacular_debugging_mode = 0
+```
+

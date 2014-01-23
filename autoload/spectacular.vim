@@ -1,19 +1,12 @@
+if !exists('g:spectacular_integrate_with_tmux')
+  let g:spectacular_integrate_with_tmux = 0
+endif
+
+if !exists('g:spectacular_debugging_mode')
+  let g:spectacular_debugging_mode = 0
+endif
+
 let s:spectacular_test_runners = {}
-
-function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
-  if !has_key(s:spectacular_test_runners, a:filetype)
-    let s:spectacular_test_runners[a:filetype] = []
-  endif
-
-  let list = get(s:spectacular_test_runners, a:filetype)
-
-  call add(list, {
-        \ 'pattern': a:file_pattern,
-        \ 'conditions': a:000,
-        \ 'cmd': a:command })
-endfunction
-
-"""""""""""""""""
 
 function! s:path_to_current_file()
   return expand("%")
@@ -65,12 +58,48 @@ function! s:prepare_term_command()
   return "clear & "
 endfunction
 
-"""""""""""""""""
+function! s:in_tmux()
+  return $TMUX != ""
+endfunction
+
+function s:number_of_tmux_panes()
+  return system("tmux list-panes \| wc -l \| cut -d \" \" -f 8")
+endfunction
+
+function! s:command_prefix()
+  if g:spectacular_integrate_with_tmux &&
+    \s:in_tmux() &&
+    \s:number_of_tmux_panes() > 1 &&
+    \exists(":Tmux")
+    return "Tmux "
+  else
+    return "!"
+  endif
+endfunction
+
+function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
+  if !has_key(s:spectacular_test_runners, a:filetype)
+    let s:spectacular_test_runners[a:filetype] = []
+  endif
+
+  let list = get(s:spectacular_test_runners, a:filetype)
+
+  call add(list, {
+        \ 'pattern': a:file_pattern,
+        \ 'conditions': a:000,
+        \ 'cmd': a:command })
+endfunction
 
 function! spectacular#run_tests()
   if s:current_file_is_test_file()
     let s:test_file = s:path_to_current_file()
   endif
 
-  execute "!" . s:prepare_term_command() . s:run_tests_command()
+  let command = s:command_prefix() . s:prepare_term_command() . s:run_tests_command()
+
+  if g:spectacular_debugging_mode
+    echom command
+  endif
+
+  execute command
 endfunction
