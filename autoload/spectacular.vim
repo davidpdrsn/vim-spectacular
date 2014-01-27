@@ -71,12 +71,12 @@ function! s:command_prefix()
     \s:in_tmux() &&
     \s:number_of_tmux_panes() > 1 &&
     \exists(":Tmux")
-    return "Tmux clear & "
+    return "Tmux clear; "
   elseif g:spectacular_integrate_with_dispatch &&
     \exists(":Dispatch")
     return "Dispatch "
   else
-    return "!clear & "
+    return "!clear; "
   endif
 endfunction
 
