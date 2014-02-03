@@ -1,4 +1,4 @@
-# spectacular.vim
+# vim-spectacular
 
 spectacular.vim is a vim plugin for running tests.
 
