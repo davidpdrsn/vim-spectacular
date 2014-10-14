@@ -76,7 +76,7 @@ function! s:command_prefix()
     \exists(":Dispatch")
     return "Dispatch "
   else
-    return "!clear; "
+    return "!echo \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"; "
   endif
 endfunction
 
