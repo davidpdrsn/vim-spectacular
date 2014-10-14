@@ -80,17 +80,19 @@ function! s:command_prefix()
   endif
 endfunction
 
-function! spectacular#add_test_runner(filetype, command, file_pattern, ...)
-  if !has_key(s:spectacular_test_runners, a:filetype)
-    let s:spectacular_test_runners[a:filetype] = []
-  endif
+function! spectacular#add_test_runner(filetypes, command, file_pattern, ...)
+  for type in split(substitute(a:filetypes, " ", "", "g"), ",")
+    if !has_key(s:spectacular_test_runners, type)
+      let s:spectacular_test_runners[type] = []
+    endif
 
-  let list = get(s:spectacular_test_runners, a:filetype)
+    let list = get(s:spectacular_test_runners, type)
 
-  call add(list, {
-        \ 'pattern': a:file_pattern,
-        \ 'conditions': a:000,
-        \ 'cmd': a:command })
+    call add(list, {
+          \ 'pattern': a:file_pattern,
+          \ 'conditions': a:000,
+          \ 'cmd': a:command })
+  endfor
 endfunction
 
 function! spectacular#run_tests()

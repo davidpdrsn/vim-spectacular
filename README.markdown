@@ -18,13 +18,13 @@ call spectacular#add_test_runner('javascript', 'karma run', 'Spec')
 
 call spectacular#add_test_runner('cucumber', 'cucumber {spec}', '')
 
-call spectacular#add_test_runner('ruby', 'bin/rspec {spec}', '_spec', function("InRailsApp"), function("TestsRequireRails"))
+call spectacular#add_test_runner('ruby, javascript, coffee, eruby', 'bin/rspec {spec}', '_spec.rb', function("InRailsApp"), function("TestsRequireRails"))
 call spectacular#add_test_runner('ruby', 'rspec {spec}', '_spec')
 ```
 
 The `spectacular#add_test_runner` function takes three or more arguments.
 
-The first argument is the filetype that the test runner applies to.
+The first argument is the filetype that the test runner applies to. This can be a comma separated list of file types.
 
 The second is the command to use for running the tests. `{spec}` will be replaced with the path to current test file.
 
