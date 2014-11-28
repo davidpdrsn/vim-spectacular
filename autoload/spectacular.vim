@@ -91,13 +91,17 @@ function! s:command_prefix()
   endif
 endfunction
 
+function! s:current_file_type_is_testable()
+  return has_key(s:spectacular_test_runners, &filetype)
+endfunction
+
 function! spectacular#add_test_runner(filetypes, command, file_pattern, ...)
-  for type in split(substitute(a:filetypes, " ", "", "g"), ",")
-    if !has_key(s:spectacular_test_runners, type)
-      let s:spectacular_test_runners[type] = []
+  for type_of_file in split(substitute(a:filetypes, " ", "", "g"), ",")
+    if !has_key(s:spectacular_test_runners, type_of_file)
+      let s:spectacular_test_runners[type_of_file] = []
     endif
 
-    let list = get(s:spectacular_test_runners, type)
+    let list = get(s:spectacular_test_runners, type_of_file)
 
     call add(list, {
           \ 'pattern': a:file_pattern,
@@ -107,6 +111,11 @@ function! spectacular#add_test_runner(filetypes, command, file_pattern, ...)
 endfunction
 
 function! spectacular#run_tests()
+  if !s:current_file_type_is_testable()
+    echom "You have no tests configured for this file type"
+    return
+  endif
+
   if s:current_file_is_test_file()
     let s:test_file = s:path_to_current_file()
   endif
