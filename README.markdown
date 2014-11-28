@@ -54,5 +54,9 @@ let g:spectacular_integrate_with_dispatch = 0
 
 " Put the command run onto `:messages`. Useful for debugging.
 let g:spectacular_debugging_mode = 0
+
+" If a tmux session with this name is open, and g:spectacular_integrate_with_tmux is set,
+" then the output will be sent to that session. Default is "test"
+let g:spectacular_name_of_tmux_test_session = "test_output"
 ```
 
