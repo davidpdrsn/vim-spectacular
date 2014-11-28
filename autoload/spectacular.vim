@@ -1,3 +1,7 @@
+if !exists('g:spectacular_name_of_tmux_test_session')
+  let g:spectacular_name_of_tmux_test_session = 'test'
+endif
+
 if !exists('g:spectacular_integrate_with_tmux')
   let g:spectacular_integrate_with_tmux = 0
 endif
@@ -66,14 +70,21 @@ function s:number_of_tmux_panes()
   return system("tmux list-panes \| wc -l \| cut -d \" \" -f 8")
 endfunction
 
+function s:tmux_test_session_open()
+  return system("tmux list-sessions \| grep " . g:spectacular_name_of_tmux_test_session) != ""
+endfunction
+
+function s:should_run_with_tmux()
+  return g:spectacular_integrate_with_tmux &&
+       \ s:in_tmux() &&
+       \ (s:tmux_test_session_open() || s:number_of_tmux_panes() > 1) &&
+       \ exists(":Tmux")
+endfunction
+
 function! s:command_prefix()
-  if g:spectacular_integrate_with_tmux &&
-    \s:in_tmux() &&
-    \s:number_of_tmux_panes() > 1 &&
-    \exists(":Tmux")
+  if s:should_run_with_tmux()
     return "Tmux clear; "
-  elseif g:spectacular_integrate_with_dispatch &&
-    \exists(":Dispatch")
+  elseif g:spectacular_integrate_with_dispatch && exists(":Dispatch")
     return "Dispatch "
   else
     return "!echo \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"; "
