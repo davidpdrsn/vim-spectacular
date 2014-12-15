@@ -16,6 +16,7 @@ endif
 
 let s:spectacular_test_runners = {}
 let s:spectacular_run_with_current_line = 0
+let s:spectacular_cached_line_number = 0
 
 function! s:path_to_current_file()
   return expand("%")
@@ -34,7 +35,11 @@ function! s:current_file_is_test_file()
 endfunction
 
 function! s:current_line_number()
-  return line(".")
+  if s:current_file_is_test_file()
+    let s:spectacular_cached_line_number = line(".")
+  endif
+
+  return s:spectacular_cached_line_number
 endfunction
 
 function! s:pattern_matches_test_file(test_file, pattern)
