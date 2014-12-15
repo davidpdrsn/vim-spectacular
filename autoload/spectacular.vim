@@ -80,7 +80,12 @@ function! s:configs_for_test_file(test_file)
 endfunction
 
 function! s:config_for_test_file(test_file)
-  return get(s:configs_for_test_file(a:test_file), 0)
+  let configs = s:configs_for_test_file(a:test_file)
+  if len(configs) > 0
+    return get(configs, 0)
+  else
+    throw "You have no tests configured for this file type with a line number option"
+  endif
 endfunction
 
 function! s:run_tests_command()
