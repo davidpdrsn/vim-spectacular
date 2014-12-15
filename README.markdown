@@ -57,6 +57,14 @@ It will then substitute `{line-number}` with your current line number, and run t
 
 Note that when you run `spectacular#run_tests_with_current_line()` it will only look for configurations where the command contains `{line-number}`. This is to not make the setup/precedence too confusing.
 
+## Installation
+
+I recommend using [Vundle](https://github.com/gmarik/Vundle.vim). Just add this to your vimrc:
+
+```vim
+Plugin 'davidpdrsn/vim-spectacular'
+```
+
 ## Configuration
 
 A few configuration options are available. They are set with global variables.
