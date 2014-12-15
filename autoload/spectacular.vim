@@ -148,8 +148,7 @@ endfunction
 
 function! spectacular#run_tests()
   if !s:current_file_type_is_testable()
-    echom "You have no tests configured for this file type"
-    return
+    throw "You have no tests configured for this file type"
   endif
 
   if s:current_file_is_test_file()
