@@ -9,6 +9,12 @@ The important features of vim-spectacular is:
 - You can configure things like "if I'm in a rails app and this test file requires rails to be loaded run tests this way otherwise run them this way".
 - It remembers the last test file you ran and re-runs that if you switch to a non-test file.
 
+Other nice to have features
+
+- Configure how to run the test at the current line (if you framework supports it).
+- Integration with Tmux for sending output to other panes or sessions.
+- Reuse the same config across file types.
+
 ## Example configuration
 
 From within you vimrc you just call `spectacular#add_test_runner` to add another way to run test. It looks something like this:
