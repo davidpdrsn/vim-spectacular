@@ -39,7 +39,7 @@ To actually run the tests you most call the function `spectacular#run_tests()`. 
 map <leader>t :write\|:call spectacular#run_tests()<cr>
 ```
 
-## Running test at current line (work in progress)
+## Running test at current line
 
 Some testing frameworks allow you to run just the test at a specific line (such as Rspec). To configure this, write a test runner configuration like this:
 
