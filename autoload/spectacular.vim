@@ -15,6 +15,7 @@ if !exists('g:spectacular_debugging_mode')
 endif
 
 let s:spectacular_test_runners = {}
+let s:spectacular_run_with_current_line = 0
 
 function! s:path_to_current_file()
   return expand("%")
@@ -32,11 +33,35 @@ function! s:current_file_is_test_file()
   endfor
 endfunction
 
+function! s:current_line_number()
+  return line(".")
+endfunction
+
+function! s:pattern_matches_test_file(test_file, pattern)
+  return match(a:test_file, a:pattern) != -1
+endfunction
+
+function! s:command_requires_line_number(cmd)
+  return match(a:cmd, "{line-number}") != -1
+endfunction
+
+function! s:config_matches_file(test_file, config)
+  if s:pattern_matches_test_file(a:test_file, a:config.pattern)
+    if s:spectacular_run_with_current_line
+      return s:command_requires_line_number(a:config.cmd)
+    else
+      return !s:command_requires_line_number(a:config.cmd)
+    endif
+  else
+    return 0
+  endif
+endfunction
+
 function! s:configs_for_test_file(test_file)
   let acc = []
 
   for config in s:configs_for_current_filetype()
-    if match(a:test_file, config.pattern) != -1
+    if s:config_matches_file(a:test_file, config)
       let all_conditions_pass = 1
       for Condition in config.conditions
         if !Condition(a:test_file)
@@ -59,7 +84,13 @@ function! s:config_for_test_file(test_file)
 endfunction
 
 function! s:run_tests_command()
-  return substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "")
+  let cmd = substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "")
+
+  if s:spectacular_run_with_current_line
+    let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "")
+  endif
+
+  return cmd
 endfunction
 
 function! s:in_tmux()
@@ -127,4 +158,10 @@ function! spectacular#run_tests()
   endif
 
   execute command
+endfunction
+
+function! spectacular#run_tests_with_current_line()
+  let s:spectacular_run_with_current_line = 1
+  call spectacular#run_tests()
+  let s:spectacular_run_with_current_line = 0
 endfunction
