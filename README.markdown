@@ -39,6 +39,24 @@ To actually run the tests you most call the function `spectacular#run_tests()`. 
 map <leader>t :write\|:call spectacular#run_tests()<cr>
 ```
 
+## Running test at current line (work in progress)
+
+Some testing frameworks allow you to run just the test at a specific line (such as Rspec). To configure this, write a test runner configuration like this:
+
+```vim
+call spectacular#add_test_runner('ruby', 'rspec {spec}:{line-number}', '_spec')
+```
+
+When you then run
+
+```vim
+:call spectacular#run_tests_with_current_line()<cr>
+```
+
+It will then substitute `{line-number}` with your current line number, and run the test. When you rerun your tests from another file it will remember the line you were at and do the right thing.
+
+Note that when you run `spectacular#run_tests_with_current_line()` it will only look for configurations where the command contains `{line-number}`. This is to not make the setup/precedence too confusing.
+
 ## Configuration
 
 A few configuration options are available. They are set with global variables.
