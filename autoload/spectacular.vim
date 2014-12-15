@@ -66,15 +66,15 @@ function! s:in_tmux()
   return $TMUX != ""
 endfunction
 
-function s:number_of_tmux_panes()
+function! s:number_of_tmux_panes()
   return system("tmux list-panes \| wc -l \| cut -d \" \" -f 8")
 endfunction
 
-function s:tmux_test_session_open()
+function! s:tmux_test_session_open()
   return system("tmux list-sessions \| grep " . g:spectacular_name_of_tmux_test_session) != ""
 endfunction
 
-function s:should_run_with_tmux()
+function! s:should_run_with_tmux()
   return g:spectacular_integrate_with_tmux &&
        \ s:in_tmux() &&
        \ (s:tmux_test_session_open() || s:number_of_tmux_panes() > 1) &&
