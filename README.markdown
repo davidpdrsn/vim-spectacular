@@ -34,7 +34,7 @@ The `spectacular#add_test_runner` function takes three or more arguments.
 2. The second is the command to use for running the tests. `{spec}` will be replaced with the path to current test file.
 3. The third argument is string that the filename most contain in order to be considered a test file. You can leave this blank if all files with the given file type contain test. This would be true for cucumber files.
 
-Optionally you can pass in more than three arguments in which case the extra arguments most be references to vimscript functions. These functions most return a boolean value (0 or 1) when given the current test file. If any of the functions return false then the current test file will not be run in the specified way, it will move on to checking the rest. This allows you check for things like "are we in a rails app?", "does the current spec require rails to be loaded?", "does it have a focus tag?", and so on.
+Optionally you can pass in more than three arguments in which case the extra arguments must be references to vimscript functions. These functions must return a boolean value (0 or 1) when given the current test file. If any of the functions return false then the current test file will not be run in the specified way, it will move on to checking the rest. This allows you check for things like "are we in a rails app?", "does the current spec require rails to be loaded?", "does it have a focus tag?", and so on.
 
 If there are multiple runners that all match then the first match will be used. This means that you should probably order your runners by specificity, with the most specific ones at the top.
 
