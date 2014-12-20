@@ -90,3 +90,13 @@ let g:spectacular_debugging_mode = 0
 let g:spectacular_name_of_tmux_test_session = "test_output"
 ```
 
+## Running the tests
+
+This plugin has a few tests that ensure basic correctness of the most important functionality. Follow these setups to run the tests:
+
+- Clone down the repo
+- `bundle install`
+- Look at setup required for [vimrunner](https://github.com/AndrewRadev/vimrunner)
+- `bundle exec rspec .`
+
+The tests don't have 100% coverage but if you wanna help out, [this issue](https://github.com/davidpdrsn/vim-spectacular/issues/10) is a list things yet to be tested.
