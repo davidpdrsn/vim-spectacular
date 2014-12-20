@@ -170,6 +170,9 @@ function! spectacular#run_tests()
 endfunction
 
 function! spectacular#run_tests_with_current_line()
+  " TODO: Refactor this to be less ugly
+  " I don't like this sorta global config flag that makes
+  " some methods be split into two branches
   let s:spectacular_run_with_current_line = 1
   call spectacular#run_tests()
   let s:spectacular_run_with_current_line = 0
