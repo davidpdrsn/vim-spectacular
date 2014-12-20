@@ -1,5 +1,7 @@
 # vim-spectacular
 
+[![Build Status](https://travis-ci.org/davidpdrsn/vim-spectacular.svg?branch=master)](https://travis-ci.org/davidpdrsn/vim-spectacular)
+
 vim-spectacular is a vim plugin for running tests.
 
 The important features of vim-spectacular is:
