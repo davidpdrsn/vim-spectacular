@@ -1,9 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "vim-spectacular" do
-  before do
-    with_a_clean_working_dir()
-  end
+  before { with_a_clean_working_dir }
 
   describe "spectacular#run_tests()" do
     it "it runs the tests for the current file" do
@@ -53,12 +51,12 @@ describe "vim-spectacular" do
   end
 
   def edit_file(vim, filename)
-      vim.edit filename
-      vim.write
+    vim.edit filename
+    vim.write
   end
 
   def register_spec_runner(vim, runner_args)
-      vim.normal ":call spectacular#add_test_runner(#{runner_args})<cr>"
+    vim.normal ":call spectacular#add_test_runner(#{runner_args})<cr>"
   end
 
   def executed_command
@@ -66,19 +64,19 @@ describe "vim-spectacular" do
   end
 
   def execute_run_specs_for_file_command(vim, filename)
-      edit_file(vim, filename)
-      vim.normal ":call spectacular#run_tests()<cr>"
-      sleep 0.01
+    edit_file(vim, filename)
+    vim.normal ":call spectacular#run_tests()<cr>"
+    sleep 0.01
   end
 
   def execute_run_specs_for_file_at_current_line_command(vim, filename)
-      edit_file(vim, filename)
-      vim.normal ":call spectacular#run_tests_with_current_line()<cr>"
-      sleep 0.01
+    edit_file(vim, filename)
+    vim.normal ":call spectacular#run_tests_with_current_line()<cr>"
+    sleep 0.01
   end
 
   def with_a_clean_working_dir
-      File.delete("fakeSpec.txt") if File.exists?("fakeSpec.txt")
-      File.delete("run.txt") if File.exists?("run.txt")
+    File.delete("fakeSpec.txt") if File.exists?("fakeSpec.txt")
+    File.delete("run.txt") if File.exists?("run.txt")
   end
 end
