@@ -78,21 +78,26 @@ Plugin 'davidpdrsn/vim-spectacular'
 A few configuration options are available. They are set with global variables.
 
 ```vim
-" Run tests in another tmux pane. Requires tslime (https://github.com/jgdavey/tslime.vim).
+" Run tests in another tmux pane/session. Requires tslime (https://github.com/jgdavey/tslime.vim)
+" Default is 0
 let g:spectacular_integrate_with_tmux = 0
 
-" Run tests with dispatch. Required vim-dispatch (http://github.com/tpope/vim-dispatch).
+" Run tests with dispatch. Requires vim-dispatch (http://github.com/tpope/vim-dispatch)
+" Default is 0
 let g:spectacular_integrate_with_dispatch = 0
 
-" Put the command run onto `:messages`. Useful for debugging.
+" Put the command run onto `:messages`. Useful for debugging
+" Default is 0
 let g:spectacular_debugging_mode = 0
 
 " If a tmux session with this name is open, and g:spectacular_integrate_with_tmux is set,
-" then the output will be sent to that session. Default is "test"
+" then the output will be sent to that session
+" Default is "test"
 let g:spectacular_name_of_tmux_test_session = "test_output"
 
-" Set this to 1 if you want the screen to be cleared every time you run the tests. Default is 1
+" Set this to 1 if you want the screen to be cleared every time you run the tests
 " If its set to 0 it will just output a bunch of newlines
+" Default is 1
 let g:spectacular_clear_screen = 1
 ```
 
