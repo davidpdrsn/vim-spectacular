@@ -111,3 +111,7 @@ This plugin has a few tests that ensure basic correctness of the most important 
 - `bundle exec rspec .`
 
 The tests don't have 100% coverage but if you wanna help out, [this issue](https://github.com/davidpdrsn/vim-spectacular/issues/10) is a list things yet to be tested.
+
+## License
+
+vim-spectacular is released under the [MIT License](http://www.opensource.org/licenses/MIT).
