@@ -90,6 +90,10 @@ let g:spectacular_debugging_mode = 0
 " If a tmux session with this name is open, and g:spectacular_integrate_with_tmux is set,
 " then the output will be sent to that session. Default is "test"
 let g:spectacular_name_of_tmux_test_session = "test_output"
+
+" Set this to 1 if you want the screen to be cleared every time you run the tests. Default is 1
+" If its set to 0 it will just output a bunch of newlines
+let g:spectacular_clear_screen = 1
 ```
 
 ## Running the tests
