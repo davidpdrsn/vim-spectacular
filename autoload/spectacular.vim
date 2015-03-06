@@ -166,13 +166,17 @@ function! spectacular#run_tests()
     let s:test_file = s:path_to_current_file()
   endif
 
-  let command = s:command_prefix() . s:run_tests_command()
+  if exists("s:test_file")
+    let command = s:command_prefix() . s:run_tests_command()
 
-  if g:spectacular_debugging_mode
-    echom command
+    if g:spectacular_debugging_mode
+      echom command
+    endif
+
+    execute command
+  else
+    throw "No initial test file has been run"
   endif
-
-  execute command
 endfunction
 
 function! spectacular#run_tests_with_current_line()
