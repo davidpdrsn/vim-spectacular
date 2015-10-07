@@ -157,6 +157,26 @@ function! spectacular#add_test_runner(filetypes, command, file_pattern, ...)
   endfor
 endfunction
 
+function! s:is_vim_command(command)
+  return a:command =~? "^:"
+endfunction
+
+function! s:run_tests()
+  let test_command = s:run_tests_command()
+
+  if s:is_vim_command(test_command)
+    silent execute test_command
+  else
+    let full_command = s:command_prefix() . test_command
+
+    if g:spectacular_debugging_mode
+      echom full_command
+    endif
+
+    execute full_command
+  endif
+endfunction
+
 function! spectacular#run_tests()
   if !s:current_file_type_is_testable()
     throw "You have no tests configured for this file type"
@@ -167,13 +187,7 @@ function! spectacular#run_tests()
   endif
 
   if exists("s:test_file")
-    let command = s:command_prefix() . s:run_tests_command()
-
-    if g:spectacular_debugging_mode
-      echom command
-    endif
-
-    execute command
+    call s:run_tests()
   else
     throw "No initial test file has been run"
   endif
