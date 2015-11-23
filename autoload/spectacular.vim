@@ -18,6 +18,10 @@ if !exists('g:spectacular_clear_screen')
   let g:spectacular_clear_screen = 1
 endif
 
+if !exists('g:spectacular_use_neovim')
+  let g:spectacular_use_neovim = 0
+endif
+
 let s:spectacular_test_runners = {}
 let s:spectacular_run_with_current_line = 0
 let s:spectacular_cached_line_number = 0
@@ -133,6 +137,8 @@ function! s:command_prefix()
     return "Dispatch "
   elseif g:spectacular_clear_screen
     return "!clear; "
+  elseif g:spectacular_use_neovim
+    return "tabedit terminal://"
   else
     return "!echo \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"; "
   endif
