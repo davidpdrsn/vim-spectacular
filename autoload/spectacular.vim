@@ -15,7 +15,7 @@ if !exists('g:spectacular_debugging_mode')
 endif
 
 if !exists('g:spectacular_clear_screen')
-  let g:spectacular_clear_screen = 1
+  let g:spectacular_clear_screen = 0
 endif
 
 if !exists('g:spectacular_use_neovim')
@@ -133,12 +133,12 @@ endfunction
 function! s:command_prefix()
   if s:should_run_with_tmux()
     return "Tmux clear; "
+  elseif g:spectacular_use_neovim
+    return "tabedit terminal://"
   elseif g:spectacular_integrate_with_dispatch && exists(":Dispatch")
     return "Dispatch "
   elseif g:spectacular_clear_screen
     return "!clear; "
-  elseif g:spectacular_use_neovim
-    return "tabedit terminal://"
   else
     return "!echo \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"; "
   endif
