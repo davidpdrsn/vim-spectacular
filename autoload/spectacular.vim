@@ -134,7 +134,7 @@ function! s:command_prefix()
   if s:should_run_with_tmux()
     return "Tmux clear; "
   elseif g:spectacular_use_neovim
-    return "tabedit terminal://"
+    return "tabe term://"
   elseif g:spectacular_integrate_with_dispatch && exists(":Dispatch")
     return "Dispatch "
   elseif g:spectacular_clear_screen
