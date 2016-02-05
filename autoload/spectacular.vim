@@ -108,6 +108,10 @@ function! s:run_tests_command()
     let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "")
   endif
 
+  if g:spectacular_use_neovim
+    let cmd = substitute(cmd, ' ', '\\ ', "")
+  endif
+
   return cmd
 endfunction
 
@@ -170,7 +174,6 @@ endfunction
 function! s:run_tests()
   " No command prefix if test command starts with :
   let test_command = s:run_tests_command()
-  echom test_command
 
   if s:is_vim_command(test_command)
     if g:spectacular_debugging_mode
