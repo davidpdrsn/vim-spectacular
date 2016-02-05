@@ -15,11 +15,7 @@ if !exists('g:spectacular_debugging_mode')
 endif
 
 if !exists('g:spectacular_clear_screen')
-  let g:spectacular_clear_screen = 0
-endif
-
-if !exists('g:spectacular_use_neovim')
-  let g:spectacular_use_neovim = 0
+  let g:spectacular_clear_screen = 1
 endif
 
 if !exists('g:spectacular_use_neovim')
