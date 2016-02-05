@@ -165,13 +165,19 @@ endfunction
 
 function! s:is_vim_command(command)
   return a:command =~? "^:"
-endfunction
+end
 
 function! s:run_tests()
+  " No command prefix if test command starts with :
   let test_command = s:run_tests_command()
+  echom test_command
 
   if s:is_vim_command(test_command)
-    silent execute test_command
+    if g:spectacular_debugging_mode
+      echom test_command
+    endif
+
+    execute test_command
   else
     let full_command = s:command_prefix() . test_command
 
