@@ -169,7 +169,7 @@ endfunction
 
 function! s:is_vim_command(command)
   return a:command =~? "^:"
-end
+endfunction
 
 function! s:run_tests()
   " No command prefix if test command starts with :
