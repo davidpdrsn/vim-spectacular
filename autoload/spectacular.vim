@@ -22,6 +22,10 @@ if !exists('g:spectacular_use_neovim')
   let g:spectacular_use_neovim = 0
 endif
 
+if !exists('g:spectacular_use_neovim')
+  let g:spectacular_use_neovim = 0
+endif
+
 let s:spectacular_test_runners = {}
 let s:spectacular_run_with_current_line = 0
 let s:spectacular_cached_line_number = 0
@@ -134,7 +138,7 @@ function! s:command_prefix()
   if s:should_run_with_tmux()
     return "Tmux clear; "
   elseif g:spectacular_use_neovim
-    return "tabe term://"
+    return "split term://"
   elseif g:spectacular_integrate_with_dispatch && exists(":Dispatch")
     return "Dispatch "
   elseif g:spectacular_clear_screen

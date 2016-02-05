@@ -96,6 +96,10 @@ let g:spectacular_integrate_with_tmux = 0
 " Default is 0
 let g:spectacular_integrate_with_dispatch = 0
 
+" Run tests in a new split using Neovim's `term` command
+" Default is 0
+let g:spectacular_use_neovim = 0
+
 " Put the command run onto `:messages`. Useful for debugging
 " Default is 0
 let g:spectacular_debugging_mode = 0
