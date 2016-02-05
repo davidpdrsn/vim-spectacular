@@ -172,7 +172,6 @@ function! s:is_vim_command(command)
 endfunction
 
 function! s:run_tests()
-  " No command prefix if test command starts with :
   let test_command = s:run_tests_command()
 
   if s:is_vim_command(test_command)
