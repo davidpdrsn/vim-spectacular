@@ -102,14 +102,14 @@ function! s:config_for_test_file(test_file)
 endfunction
 
 function! s:run_tests_command()
-  let cmd = substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "")
+  let cmd = substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "g")
 
   if s:spectacular_run_with_current_line
-    let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "")
+    let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "g")
   endif
 
   if g:spectacular_use_neovim
-    let cmd = substitute(cmd, ' ', '\\ ', "")
+    let cmd = substitute(cmd, ' ', '\\ ', "g")
   endif
 
   return cmd
