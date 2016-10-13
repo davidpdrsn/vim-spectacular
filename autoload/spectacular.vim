@@ -2,10 +2,6 @@ if !exists('g:spectacular_debugging_mode')
   let g:spectacular_debugging_mode = 0
 endif
 
-if !exists('g:spectacular_clear_screen')
-  let g:spectacular_clear_screen = 1
-endif
-
 if !exists('g:spectacular_use_terminal_emulator')
   let g:spectacular_use_terminal_emulator = 0
 endif
@@ -106,10 +102,8 @@ endfunction
 function! s:command_prefix()
   if g:spectacular_use_terminal_emulator
     return "split term://"
-  elseif g:spectacular_clear_screen
-    return "!clear; "
   else
-    return "!echo \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"; "
+    return "!clear; "
   endif
 endfunction
 

@@ -95,11 +95,6 @@ let g:spectacular_use_terminal_emulator = 0
 " Put the command run onto `:messages`. Useful for debugging
 " Default is 0
 let g:spectacular_debugging_mode = 0
-
-" Set this to 1 if you want the screen to be cleared every time you run the tests
-" If its set to 0 it will just output a bunch of newlines
-" Default is 1
-let g:spectacular_clear_screen = 1
 ```
 
 ## Running the tests
