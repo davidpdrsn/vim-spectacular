@@ -108,7 +108,7 @@ function! s:run_tests_command()
     let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "g")
   endif
 
-  if g:spectacular_use_neovim
+  if g:spectacular_use_neovim && !s:is_vim_command(cmd)
     let cmd = substitute(cmd, ' ', '\\ ', "g")
   endif
 
