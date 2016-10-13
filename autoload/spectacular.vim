@@ -1,15 +1,3 @@
-if !exists('g:spectacular_name_of_tmux_test_session')
-  let g:spectacular_name_of_tmux_test_session = 'test'
-endif
-
-if !exists('g:spectacular_integrate_with_tmux')
-  let g:spectacular_integrate_with_tmux = 0
-endif
-
-if !exists('g:spectacular_integrate_with_dispatch')
-  let g:spectacular_integrate_with_dispatch = 0
-endif
-
 if !exists('g:spectacular_debugging_mode')
   let g:spectacular_debugging_mode = 0
 endif
@@ -115,32 +103,9 @@ function! s:run_tests_command()
   return cmd
 endfunction
 
-function! s:in_tmux()
-  return $TMUX != ""
-endfunction
-
-function! s:number_of_tmux_panes()
-  return system("tmux list-panes \| wc -l \| cut -d \" \" -f 8")
-endfunction
-
-function! s:tmux_test_session_open()
-  return system("tmux list-sessions \| grep " . g:spectacular_name_of_tmux_test_session) != ""
-endfunction
-
-function! s:should_run_with_tmux()
-  return g:spectacular_integrate_with_tmux &&
-       \ s:in_tmux() &&
-       \ (s:tmux_test_session_open() || s:number_of_tmux_panes() > 1) &&
-       \ exists(":Tmux")
-endfunction
-
 function! s:command_prefix()
-  if s:should_run_with_tmux()
-    return "Tmux clear; "
-  elseif g:spectacular_use_neovim
+  if g:spectacular_use_neovim
     return "split term://"
-  elseif g:spectacular_integrate_with_dispatch && exists(":Dispatch")
-    return "Dispatch "
   elseif g:spectacular_clear_screen
     return "!clear; "
   else

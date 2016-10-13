@@ -14,7 +14,6 @@ The important features of vim-spectacular is:
 Other nice to have features
 
 - Configure how to run the test at the current line (if you framework supports it).
-- Integration with Tmux for sending output to other panes or sessions.
 - Reuse the same config across file types.
 
 ## Example configuration
@@ -88,14 +87,6 @@ Plugin 'davidpdrsn/vim-spectacular'
 A few configuration options are available. They are set with global variables.
 
 ```vim
-" Run tests in another tmux pane/session. Requires tslime (https://github.com/jgdavey/tslime.vim)
-" Default is 0
-let g:spectacular_integrate_with_tmux = 0
-
-" Run tests with dispatch. Requires vim-dispatch (http://github.com/tpope/vim-dispatch)
-" Default is 0
-let g:spectacular_integrate_with_dispatch = 0
-
 " Run tests in a new split using Neovim's `term` command
 " Default is 0
 let g:spectacular_use_neovim = 0
@@ -103,11 +94,6 @@ let g:spectacular_use_neovim = 0
 " Put the command run onto `:messages`. Useful for debugging
 " Default is 0
 let g:spectacular_debugging_mode = 0
-
-" If a tmux session with this name is open, and g:spectacular_integrate_with_tmux is set,
-" then the output will be sent to that session
-" Default is "test"
-let g:spectacular_name_of_tmux_test_session = "test_output"
 
 " Set this to 1 if you want the screen to be cleared every time you run the tests
 " If its set to 0 it will just output a bunch of newlines
