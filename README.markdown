@@ -89,6 +89,7 @@ A few configuration options are available. They are set with global variables.
 ```vim
 " Run tests in a new split using Neovim's `:terminal` command
 " Note this requires you're using Neovim
+" If not using `:terminal` `:!` will be used
 " Default is 0
 let g:spectacular_use_terminal_emulator = 0
 
