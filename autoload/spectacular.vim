@@ -6,8 +6,8 @@ if !exists('g:spectacular_clear_screen')
   let g:spectacular_clear_screen = 1
 endif
 
-if !exists('g:spectacular_use_neovim')
-  let g:spectacular_use_neovim = 0
+if !exists('g:spectacular_use_terminal_emulator')
+  let g:spectacular_use_terminal_emulator = 0
 endif
 
 let s:spectacular_test_runners = {}
@@ -96,7 +96,7 @@ function! s:run_tests_command()
     let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "g")
   endif
 
-  if g:spectacular_use_neovim && !s:is_vim_command(cmd)
+  if g:spectacular_use_terminal_emulator && !s:is_vim_command(cmd)
     let cmd = substitute(cmd, ' ', '\\ ', "g")
   endif
 
@@ -104,7 +104,7 @@ function! s:run_tests_command()
 endfunction
 
 function! s:command_prefix()
-  if g:spectacular_use_neovim
+  if g:spectacular_use_terminal_emulator
     return "split term://"
   elseif g:spectacular_clear_screen
     return "!clear; "

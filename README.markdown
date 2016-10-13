@@ -87,9 +87,10 @@ Plugin 'davidpdrsn/vim-spectacular'
 A few configuration options are available. They are set with global variables.
 
 ```vim
-" Run tests in a new split using Neovim's `term` command
+" Run tests in a new split using Neovim's `:terminal` command
+" Note this requires you're using Neovim
 " Default is 0
-let g:spectacular_use_neovim = 0
+let g:spectacular_use_terminal_emulator = 0
 
 " Put the command run onto `:messages`. Useful for debugging
 " Default is 0
