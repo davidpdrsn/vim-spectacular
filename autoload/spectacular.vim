@@ -7,7 +7,6 @@ if !exists('g:spectacular_use_terminal_emulator')
 endif
 
 let s:spectacular_test_runners = {}
-let s:spectacular_run_with_current_line = 0
 let s:spectacular_cached_line_number = 0
 
 function! s:path_to_current_file()
@@ -42,9 +41,9 @@ function! s:command_requires_line_number(cmd)
   return match(a:cmd, "{line-number}") != -1
 endfunction
 
-function! s:config_matches_file(test_file, config)
+function! s:config_matches_file(test_file, config, with_current_line)
   if s:pattern_matches_test_file(a:test_file, a:config.pattern)
-    if s:spectacular_run_with_current_line
+    if a:with_current_line
       return s:command_requires_line_number(a:config.cmd)
     else
       return !s:command_requires_line_number(a:config.cmd)
@@ -54,11 +53,11 @@ function! s:config_matches_file(test_file, config)
   endif
 endfunction
 
-function! s:configs_for_test_file(test_file)
+function! s:configs_for_test_file(test_file, with_current_line)
   let acc = []
 
   for config in s:configs_for_current_filetype()
-    if s:config_matches_file(a:test_file, config)
+    if s:config_matches_file(a:test_file, config, a:with_current_line)
       let all_conditions_pass = 1
       for Condition in config.conditions
         if !Condition(a:test_file)
@@ -76,8 +75,8 @@ function! s:configs_for_test_file(test_file)
   return acc
 endfunction
 
-function! s:config_for_test_file(test_file)
-  let configs = s:configs_for_test_file(a:test_file)
+function! s:config_for_test_file(test_file, with_current_line)
+  let configs = s:configs_for_test_file(a:test_file, a:with_current_line)
   if len(configs) > 0
     return get(configs, 0)
   else
@@ -85,10 +84,10 @@ function! s:config_for_test_file(test_file)
   endif
 endfunction
 
-function! s:run_tests_command()
-  let cmd = substitute(s:config_for_test_file(s:test_file).cmd, "{spec}", s:test_file, "g")
+function! s:run_tests_command(with_current_line)
+  let cmd = substitute(s:config_for_test_file(s:test_file, a:with_current_line).cmd, "{spec}", s:test_file, "g")
 
-  if s:spectacular_run_with_current_line
+  if a:with_current_line
     let cmd = substitute(cmd, "{line-number}", s:current_line_number(), "g")
   endif
 
@@ -130,8 +129,8 @@ function! s:is_vim_command(command)
   return a:command =~? "^:"
 endfunction
 
-function! s:run_tests()
-  let test_command = s:run_tests_command()
+function! s:run_tests(with_current_line)
+  let test_command = s:run_tests_command(a:with_current_line)
 
   if s:is_vim_command(test_command)
     if g:spectacular_debugging_mode
@@ -150,7 +149,7 @@ function! s:run_tests()
   endif
 endfunction
 
-function! spectacular#run_tests()
+function! s:actually_run_tests(with_current_line)
   if !s:current_file_type_is_testable()
     throw "You have no tests configured for this file type"
   endif
@@ -160,17 +159,20 @@ function! spectacular#run_tests()
   endif
 
   if exists("s:test_file")
-    call s:run_tests()
+    call s:run_tests(a:with_current_line)
   else
     throw "No initial test file has been run"
   endif
 endfunction
 
+function! spectacular#run_tests()
+  call s:actually_run_tests(0)
+endfunction
+
 function! spectacular#run_tests_with_current_line()
-  " TODO: Refactor this to be less ugly
-  " I don't like this sorta global config flag that makes
-  " some methods be split into two branches
-  let s:spectacular_run_with_current_line = 1
-  call spectacular#run_tests()
-  let s:spectacular_run_with_current_line = 0
+  call s:actually_run_tests(1)
+endfunction
+
+function! spectacular#reset()
+  let s:spectacular_test_runners = {}
 endfunction
